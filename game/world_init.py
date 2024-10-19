@@ -151,14 +151,14 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.tags.add(IsItem)
     entity.components[Name] = "Dagger"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
-    entity.components[PowerBonus] = 2
+    entity.components[PowerBonus] = (1,3)
     entity.components[EquipSlot] = "weapon"
 
     entity = world["sword"]
     entity.tags.add(IsItem)
     entity.components[Name] = "Sword"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
-    entity.components[PowerBonus] = 4
+    entity.components[PowerBonus] = (3,5)
     entity.components[SpawnWeight] = ((4, 5),)
     entity.components[EquipSlot] = "weapon"
 

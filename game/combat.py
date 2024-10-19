@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+from random import Random
 
 import tcod.ecs  # noqa: TCH002
 
@@ -15,9 +16,11 @@ logger = logging.getLogger(__name__)
 
 def get_attack(actor: tcod.ecs.Entity) -> int:
     """Get an entities attack power."""
+    rng = actor.world[None].components[Random]
     attack_power = actor.components.get(Power, 0)
     for e in actor.registry.Q.all_of(components=[PowerBonus], relations=[(Affecting, actor)]):
-        attack_power += e.components[PowerBonus]
+        bonus = rng.randint(e.components[PowerBonus][0], e.components[PowerBonus][1])
+        attack_power += bonus
     return attack_power
 
 

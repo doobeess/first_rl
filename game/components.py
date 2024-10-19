@@ -101,13 +101,13 @@ SpawnWeight: Final = ("SpawnWeight", tuple[tuple[int, int], ...])
 EquipSlot: Final = ("EquipSlot", tuple[object])
 """Name of the equipment slot this item uses."""
 
-PowerBonus: Final = ("PowerBonus", int)
-"""Bonus attack power."""
+PowerBonus: Final = ("PowerBonus", tuple[int,int])
+"""Bonus attack power range."""
 
 DefenseBonus: Final = ("DefenseBonus", int)
 """Bonus defense power."""
 
-Enchantment: Final = ("Enchantment", int)
+Enchantment: Final = ("Enchantment", int) # TODO: Actually implement
 
 AssignedKey: Final = ("AssignedKey", str)
 """Name of the KeySym for this item."""
