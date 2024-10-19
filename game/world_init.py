@@ -21,6 +21,7 @@ from game.components import (
     PowerBonus,
     RewardXP,
     SpawnWeight,
+    Enchantment,
 )
 from game.effect import Effect
 from game.effects import Healing
@@ -86,7 +87,15 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
     """Initialize monster database."""
     init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=2, defense=1, xp=0)
     init_new_creature(
-        world, name="orc", ch=ord("o"), fg=(63, 127, 63), hp=10, power=3, defense=0, xp=35, spawn_weight=((1, 80),)
+        world,
+        name="orc",
+        ch=ord("o"),
+        fg=(63, 127, 63),
+        hp=10,
+        power=3,
+        defense=0,
+        xp=35,
+        spawn_weight=((1, 100),)
     )
     init_new_creature(
         world,
@@ -98,6 +107,17 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         defense=1,
         xp=100,
         spawn_weight=((3, 15), (5, 30), (7, 60)),
+    )
+    init_new_creature(
+        world,
+        name="bizarre testing creature",
+        ch=ord("B"),
+        fg=(0,30,60),
+        hp=10,
+        power=3,
+        defense=0,
+        xp=1,
+        spawn_weight=((1,100),)
     )
 
 

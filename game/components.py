@@ -107,6 +107,8 @@ PowerBonus: Final = ("PowerBonus", int)
 DefenseBonus: Final = ("DefenseBonus", int)
 """Bonus defense power."""
 
+Enchantment: Final = ("Enchantment", int)
+
 AssignedKey: Final = ("AssignedKey", str)
 """Name of the KeySym for this item."""
 
