@@ -7,14 +7,14 @@ from random import Random
 
 import tcod.ecs  # noqa: TCH002
 
-from game.components import AI, HP, XP, Defense, DefenseBonus, Graphic, MaxHP, Name, Power, PowerBonus, RewardXP
+from game.components import AI, HP, XP, Defense, DefenseBonus, Graphic, MaxHP, Name, Power, PowerBonus, RewardXP, Evasion
 from game.messages import add_message
 from game.tags import Affecting, IsAlive, IsBlocking, IsPlayer
 
 logger = logging.getLogger(__name__)
 
-def get_accuracy(attacker: tcod.ecs.Entity, target: tcod.ecs.Entity) -> float:
-    return 0.7
+def get_accuracy(entity: tcod.ecs.Entity) -> float:
+    return 1-entity.components[Evasion]
 
 
 def get_attack(actor: tcod.ecs.Entity) -> int:
@@ -40,7 +40,7 @@ def melee_damage(attacker: tcod.ecs.Entity, target: tcod.ecs.Entity):
     """Get melee damage for attacking target."""
     rng = attacker.world[None].components[Random]
     damage = max(0, get_attack(attacker) - get_defense(target))
-    hit = rng.random() <= get_accuracy(attacker, target)
+    hit = rng.random() <= get_accuracy(target)
     if hit:
         return damage
     else:

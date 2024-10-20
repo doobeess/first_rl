@@ -21,7 +21,7 @@ from game.components import (
     PowerBonus,
     RewardXP,
     SpawnWeight,
-    Enchantment,
+    Evasion,
 )
 from game.effect import Effect
 from game.effects import Healing
@@ -67,6 +67,7 @@ def init_new_creature(
     hp: int,
     power: tuple[int,int],
     defense: int,
+    evasion: float,
     xp: int,
     spawn_weight: tuple[tuple[int, int], ...] = (),
 ) -> None:
@@ -78,6 +79,7 @@ def init_new_creature(
     race.components[HP] = race.components[MaxHP] = hp
     race.components[Power] = power
     race.components[Defense] = defense
+    race.components[Evasion] = evasion
     race.components[RewardXP] = xp
     if spawn_weight:
         race.components[SpawnWeight] = spawn_weight
@@ -85,7 +87,7 @@ def init_new_creature(
 
 def init_creatures(world: tcod.ecs.Registry) -> None:
     """Initialize monster database."""
-    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=(0,1), defense=1, xp=0)
+    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=(0,1), defense=1, evasion=.3, xp=0)
     init_new_creature(
         world,
         name="orc",
@@ -94,6 +96,7 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         hp=10,
         power=(2,4),
         defense=0,
+        evasion=.3,
         xp=35,
         spawn_weight=((1, 100),)
     )
@@ -105,17 +108,19 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         hp=16,
         power=(4,6),
         defense=1,
+        evasion=.1,
         xp=100,
         spawn_weight=((3, 15), (5, 30), (7, 60)),
     )
     init_new_creature(
         world,
-        name="bizarre testing creature",
+        name="bat",
         ch=ord("B"),
-        fg=(0,30,60),
+        fg=(30,30,30),
         hp=10,
         power=(1,2),
         defense=0,
+        evasion=.7,
         xp=1,
         spawn_weight=((1,100),)
     )

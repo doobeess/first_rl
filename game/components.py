@@ -109,7 +109,7 @@ DefenseBonus: Final = ("DefenseBonus", int)
 
 Enchantment: Final = ("Enchantment", int) # TODO: Actually implement
 
-Accuracy: Final = ("Accuracy", float)
+Evasion: Final = ("Evasion", float)
 
 AssignedKey: Final = ("AssignedKey", str)
 """Name of the KeySym for this item."""
