@@ -281,12 +281,13 @@ class LevelUp:
                 add_message(g.world, "Your health improves!")
                 return InGame()
             case tcod.event.KeyDown(sym=KeySym.b):
-                player.components[Power] += 1
+                power = player.components[Power]
+                player.components[Power] = (power[0]+3, power[1]+3)
                 level_up(player)
                 add_message(g.world, "You feel stronger!")
                 return InGame()
             case tcod.event.KeyDown(sym=KeySym.c):
-                player.components[Defense] += 1
+                player.components[Defense] += 3
                 level_up(player)
                 add_message(g.world, "Your movements are getting swifter!")
                 return InGame()
