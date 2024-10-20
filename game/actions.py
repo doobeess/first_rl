@@ -63,8 +63,10 @@ class Melee:
 
         damage = melee_damage(entity, target)
         attack_color = "player_atk" if IsPlayer in entity.tags else "enemy_atk"
-        attack_desc = f"""{entity.components[Name]} attacks {target.components[Name]}"""
-        if damage > 0:
+        attack_desc = f"""{entity.components[Name]} {"attacks" if damage is not None else "misses"} {target.components[Name]}"""
+        if damage is None:
+            add_message(entity.registry, f"{attack_desc}!""")
+        elif damage > 0:
             add_message(entity.registry, f"{attack_desc} for {damage} hit points.", attack_color)
             apply_damage(target, damage, blame=entity)
         else:

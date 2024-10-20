@@ -13,6 +13,9 @@ from game.tags import Affecting, IsAlive, IsBlocking, IsPlayer
 
 logger = logging.getLogger(__name__)
 
+def get_accuracy(attacker: tcod.ecs.Entity, target: tcod.ecs.Entity) -> float:
+    return 0.7
+
 
 def get_attack(actor: tcod.ecs.Entity) -> int:
     """Get an entities attack power."""
@@ -33,12 +36,19 @@ def get_defense(actor: tcod.ecs.Entity) -> int:
     return defense_power
 
 
-def melee_damage(attacker: tcod.ecs.Entity, target: tcod.ecs.Entity) -> int:
+def melee_damage(attacker: tcod.ecs.Entity, target: tcod.ecs.Entity):
     """Get melee damage for attacking target."""
-    return max(0, get_attack(attacker) - get_defense(target))
+    rng = attacker.world[None].components[Random]
+    damage = max(0, get_attack(attacker) - get_defense(target))
+    hit = rng.random() <= get_accuracy(attacker, target)
+    if hit:
+        return damage
+    else:
+        return None
 
 
-def apply_damage(entity: tcod.ecs.Entity, damage: int, blame: tcod.ecs.Entity) -> None:
+
+def apply_damage(entity: tcod.ecs.Entity, damage: int, blame: tcod.ecs.Entity):
     """Deal damage to an entity."""
     entity.components[HP] -= damage
     if entity.components[HP] <= 0:
