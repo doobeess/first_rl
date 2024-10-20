@@ -65,7 +65,7 @@ def init_new_creature(
     ch: int,
     fg: tuple[int, int, int],
     hp: int,
-    power: int,
+    power: tuple[int,int],
     defense: int,
     xp: int,
     spawn_weight: tuple[tuple[int, int], ...] = (),
@@ -85,14 +85,14 @@ def init_new_creature(
 
 def init_creatures(world: tcod.ecs.Registry) -> None:
     """Initialize monster database."""
-    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=2, defense=1, xp=0)
+    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=(0,1), defense=1, xp=0)
     init_new_creature(
         world,
         name="orc",
         ch=ord("o"),
         fg=(63, 127, 63),
         hp=10,
-        power=3,
+        power=(2,4),
         defense=0,
         xp=35,
         spawn_weight=((1, 100),)
@@ -103,7 +103,7 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         ch=ord("T"),
         fg=(0, 127, 0),
         hp=16,
-        power=4,
+        power=(4,6),
         defense=1,
         xp=100,
         spawn_weight=((3, 15), (5, 30), (7, 60)),
@@ -114,7 +114,7 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         ch=ord("B"),
         fg=(0,30,60),
         hp=10,
-        power=3,
+        power=(1,2),
         defense=0,
         xp=1,
         spawn_weight=((1,100),)
