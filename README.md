@@ -1,3 +1,3 @@
-# Engine for the Roguelikedev tutorial 2024
+# First Roguelike
 
-![Roguelikedev does the Complete Roguelike Tutorial 2024](https://i.imgur.com/GEyBFMC.png)
+A roguelike based on Hexdecimal's 2024 [roguelike engine](https://github.com/HexDecimal/roguelikedev-tutorial-engine-2024). Currently nowhere close to a complete game.
