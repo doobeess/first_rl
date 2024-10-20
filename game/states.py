@@ -261,12 +261,12 @@ class LevelUp:
         console.print(
             x=x + 1,
             y=y + 5,
-            string=f"b) Strength (+1 attack, from {player.components[Power]})",
+            string=f"b) Strength (+3 attack)",
         )
         console.print(
             x=x + 1,
             y=y + 6,
-            string=f"c) Agility (+7% evasion, from {player.components[Evasion]*100})%",
+            string=f"c) Agility (+7% evasion, from {int(player.components[Evasion]*100)})%",
         )
 
     def on_event(self, event: tcod.event.Event) -> State:
