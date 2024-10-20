@@ -1,4 +1,4 @@
-#!/home/daviddee/python-venv/bin/python
+#./.venv
 """Main module."""
 
 from __future__ import annotations
