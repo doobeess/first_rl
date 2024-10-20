@@ -22,7 +22,7 @@ from game.action import Action  # noqa: TCH001
 from game.action_tools import do_player_action
 from game.actions import ApplyItem, Bump, DropItem, PickupItem, TakeStairs
 from game.actor_tools import get_player_actor, level_up, required_xp_for_level
-from game.components import HP, XP, Defense, Level, MaxHP, Position, Power
+from game.components import HP, XP, Defense, Level, MaxHP, Position, Power, Evasion
 from game.constants import DIRECTION_KEYS
 from game.entity_tools import get_desc
 from game.item_tools import get_inventory_keys
@@ -266,7 +266,7 @@ class LevelUp:
         console.print(
             x=x + 1,
             y=y + 6,
-            string=f"c) Agility (+1 defense, from {player.components[Defense]})",
+            string=f"c) Agility (+7% evasion, from {player.components[Evasion]*100})%",
         )
 
     def on_event(self, event: tcod.event.Event) -> State:
@@ -287,9 +287,9 @@ class LevelUp:
                 add_message(g.world, "You feel stronger!")
                 return InGame()
             case tcod.event.KeyDown(sym=KeySym.c):
-                player.components[Defense] += 3
+                player.components[Evasion] += .07
                 level_up(player)
-                add_message(g.world, "Your movements are getting swifter!")
+                add_message(g.world, "You feel more evasive!")
                 return InGame()
 
         return self
