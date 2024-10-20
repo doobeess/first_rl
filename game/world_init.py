@@ -87,14 +87,14 @@ def init_new_creature(
 
 def init_creatures(world: tcod.ecs.Registry) -> None:
     """Initialize monster database."""
-    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=30, power=(0,1), defense=1, evasion=.3, xp=0)
+    init_new_creature(world, name="player", ch=ord("@"), fg=(255, 255, 255), hp=100, power=(5,7), defense=1, evasion=.3, xp=0)
     init_new_creature(
         world,
         name="orc",
         ch=ord("o"),
         fg=(63, 127, 63),
-        hp=10,
-        power=(2,4),
+        hp=30,
+        power=(5,10),
         defense=0,
         evasion=.3,
         xp=35,
@@ -105,8 +105,8 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         name="troll",
         ch=ord("T"),
         fg=(0, 127, 0),
-        hp=16,
-        power=(4,6),
+        hp=50,
+        power=(20,30),
         defense=1,
         evasion=.1,
         xp=100,
@@ -117,13 +117,14 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
         name="bat",
         ch=ord("B"),
         fg=(30,30,30),
-        hp=10,
-        power=(1,2),
+        hp=15,
+        power=(3,10),
         defense=0,
         evasion=.7,
         xp=1,
         spawn_weight=((1,100),)
     )
+
 
 
 def init_items(world: tcod.ecs.Registry) -> None:
@@ -132,7 +133,7 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.tags.add(IsItem)
     entity.components[Name] = "Health Potion"
     entity.components[Graphic] = Graphic(ord("!"), (127, 0, 255))
-    entity.components[Effect] = Healing(4)
+    entity.components[Effect] = Healing(15)
     entity.components[ApplyAction] = Potion()
     entity.components[SpawnWeight] = ((1, 35),)
 
@@ -156,14 +157,14 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.tags.add(IsItem)
     entity.components[Name] = "Dagger"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
-    entity.components[PowerBonus] = (1,3)
+    entity.components[PowerBonus] = (5,20)
     entity.components[EquipSlot] = "weapon"
 
     entity = world["sword"]
     entity.tags.add(IsItem)
     entity.components[Name] = "Sword"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
-    entity.components[PowerBonus] = (3,5)
+    entity.components[PowerBonus] = (10,30)
     entity.components[SpawnWeight] = ((4, 5),)
     entity.components[EquipSlot] = "weapon"
 
@@ -171,13 +172,13 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.tags.add(IsItem)
     entity.components[Name] = "Leather Armor"
     entity.components[Graphic] = Graphic(ord("["), (139, 69, 19))
-    entity.components[DefenseBonus] = 1
+    entity.components[DefenseBonus] = 5
     entity.components[EquipSlot] = "armor"
 
     entity = world["chain_mail"]
     entity.tags.add(IsItem)
     entity.components[Name] = "Chain Mail"
     entity.components[Graphic] = Graphic(ord("["), (139, 69, 19))
-    entity.components[DefenseBonus] = 3
+    entity.components[DefenseBonus] = 10
     entity.components[SpawnWeight] = ((6, 15),)
     entity.components[EquipSlot] = "armor"
