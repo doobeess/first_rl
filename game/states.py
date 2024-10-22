@@ -22,7 +22,7 @@ from game.action import Action  # noqa: TCH001
 from game.action_tools import do_player_action
 from game.actions import ApplyItem, Bump, DropItem, PickupItem, TakeStairs
 from game.actor_tools import get_player_actor, level_up, required_xp_for_level
-from game.components import HP, XP, Defense, Level, MaxHP, Position, Power, Evasion
+from game.components import HP, XP, Defense, Level, MaxHP, Position, Power, Evasion, Nutrition
 from game.constants import DIRECTION_KEYS
 from game.entity_tools import get_desc
 from game.item_tools import get_inventory_keys
@@ -30,7 +30,7 @@ from game.messages import add_message
 from game.rendering import main_render
 from game.state import State
 from game.tags import IsPlayer
-
+from game.combat import die
 
 @attrs.define
 class InGame(State):
@@ -62,6 +62,7 @@ class InGame(State):
                 return do_player_action(player, TakeStairs("up"))
             case tcod.event.KeyDown(sym=sym) if sym in DIRECTION_KEYS:
                 return do_player_action(player, Bump(DIRECTION_KEYS[sym]))
+
         return self
 
     def on_draw(self, console: tcod.console.Console) -> None:

@@ -74,6 +74,9 @@ HP: Final = ("HP", int)
 MaxHP: Final = ("MaxHP", int)
 """Maximum hit points."""
 
+Nutrition: Final = ("Nutrition", int)
+MaxNutrition: Final = ("MaxNutrition", int)
+
 Power: Final = ("Power", tuple[int,int])
 """Attack power."""
 

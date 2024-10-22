@@ -18,19 +18,33 @@ from game.messages import add_message
 from game.spell import AreaOfEffect, EntitySpell, PositionSpell
 from game.tags import IsActor, IsIn
 
-
 @attrs.define
-class Potion:
-    """Drinkable potion."""
+class Consumable:
+    """Generic consumable."""
 
     def on_apply(self, actor: Entity, item: Entity) -> ActionResult:
         """Consume the item and apply its effect."""
-        add_message(actor.registry, f"""You consume the {get_desc(item)}!""")
+        self.report(actor, item)
         if Effect in item.components:
             item.components[Effect].affect(actor)
         consume_item(item)
         return Success()
 
+    def report(self, actor: Entity, item: Entity):
+        add_message(actor.registry, f"""ERROR: No report message for using {get_desc(item)}""")
+
+class Potion(Consumable):
+    """Drinkable potion."""
+
+    def report(self, actor: Entity, item: Entity):
+        add_message(actor.registry, f"""You drink the {get_desc(item)}!""")
+
+@attrs.define
+class Food(Consumable):
+    """Edible ration."""
+
+    def report(self, actor: Entity, item: Entity):
+        add_message(actor.registry, f"""You eat the {get_desc(item)}.""")
 
 @attrs.define
 class RandomTargetScroll:

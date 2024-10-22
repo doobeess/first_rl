@@ -10,11 +10,13 @@ import game.actor_tools
 import game.procgen
 from game.components import (
     HP,
+    MaxHP,
+    Nutrition,
+    MaxNutrition,
     Defense,
     DefenseBonus,
     EquipSlot,
     Graphic,
-    MaxHP,
     Name,
     Position,
     Power,
@@ -25,10 +27,10 @@ from game.components import (
     Enchantment,
 )
 from game.effect import Effect
-from game.effects import Healing
+from game.effects import Healing, AddNutrition
 from game.item import ApplyAction
 from game.item_tools import equip_item
-from game.items import Potion, RandomTargetScroll, TargetScroll
+from game.items import Potion, Food, RandomTargetScroll, TargetScroll
 from game.map_tools import get_map
 from game.messages import MessageLog, add_message
 from game.spell import EntitySpell, PositionSpell
@@ -82,6 +84,8 @@ def init_new_creature(
     race.components[Defense] = defense
     race.components[Evasion] = evasion
     race.components[RewardXP] = xp
+    if name == "player":
+        race.components[Nutrition] = race.components[MaxNutrition] = 10
     if spawn_weight:
         race.components[SpawnWeight] = spawn_weight
 
@@ -130,6 +134,14 @@ def init_creatures(world: tcod.ecs.Registry) -> None:
 
 def init_items(world: tcod.ecs.Registry) -> None:
     """Initialize item database."""
+    entity = world["food_ration"]
+    entity.tags.add(IsItem)
+    entity.components[Name] = "food ration"
+    entity.components[Graphic] = Graphic(ord(":"), (115, 76, 31))
+    entity.components[Effect] = AddNutrition(300)
+    entity.components[ApplyAction] = Food()
+    entity.components[SpawnWeight] = ((1,10),)
+
     entity = world["health_potion"]
     entity.tags.add(IsItem)
     entity.components[Name] = "Health Potion"
@@ -159,7 +171,7 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[Name] = "Dagger"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
     entity.components[PowerBonus] = (5,20)
-    entity.components[SpawnWeight] = ((1,5),)
+    entity.components[SpawnWeight] = ((2,5),)
     entity.components[EquipSlot] = "weapon"
     entity.tags.add(NotStackable)
 
@@ -168,7 +180,7 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[Name] = "Sword"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
     entity.components[PowerBonus] = (10,30)
-    entity.components[SpawnWeight] = ((1, 5),)
+    entity.components[SpawnWeight] = ((4, 5),)
     entity.components[EquipSlot] = "weapon"
     entity.tags.add(NotStackable)
 
@@ -178,7 +190,7 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[Graphic] = Graphic(ord("["), (139, 69, 19))
     entity.components[DefenseBonus] = 5
     entity.components[EquipSlot] = "armor"
-    entity.components[SpawnWeight] = ((1, 5),)
+    entity.components[SpawnWeight] = ((2, 5),)
     entity.tags.add(NotStackable)
 
     entity = world["chain_mail"]

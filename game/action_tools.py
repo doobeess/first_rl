@@ -9,10 +9,11 @@ import tcod.ecs  # noqa: TCH002
 import game.states
 from game.action import Action, Impossible, Poll, Success
 from game.actor_tools import can_level_up, update_fov
-from game.components import AI, HP
+from game.components import AI, HP, Nutrition
 from game.messages import add_message
 from game.state import State  # noqa: TCH001
 from game.tags import IsIn, IsPlayer
+from game.combat import die
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,13 @@ def do_player_action(player: tcod.ecs.Entity, action: Action) -> State:
             return state
         case Impossible(reason=reason):
             add_message(player.registry, reason, fg="impossible")
+
+    if result is not Impossible:
+        player.components[Nutrition] -= 1
+        if player.components[Nutrition] == 0:
+            add_message(player.registry, "You starve!")
+            player.components[HP] = 0
+            die(player, None)
 
     if can_level_up(player):
         return game.states.LevelUp()
