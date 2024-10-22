@@ -85,7 +85,7 @@ def init_new_creature(
     race.components[Evasion] = evasion
     race.components[RewardXP] = xp
     if name == "player":
-        race.components[Nutrition] = race.components[MaxNutrition] = 10
+        race.components[Nutrition] = race.components[MaxNutrition] = 500
     if spawn_weight:
         race.components[SpawnWeight] = spawn_weight
 
