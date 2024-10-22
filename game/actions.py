@@ -11,7 +11,7 @@ from game.action import ActionResult, Impossible, Success
 from game.actor_tools import update_fov
 from game.combat import apply_damage, melee_damage
 from game.components import EquipSlot, MapShape, Name, Position, Tiles, VisibleTiles
-from game.entity_tools import get_name
+from game.entity_tools import get_name, get_desc
 from game.item import ApplyAction
 from game.item_tools import add_to_inventory, equip_item, unequip_item
 from game.map import MapKey
@@ -192,7 +192,7 @@ class DropItem:
         """Drop item from inventory."""
         item = self.item
         assert item.relation_tag[IsIn] is actor
-        add_message(actor.registry, f"""You drop the {item.components.get(Name, "?")}!""")
+        add_message(actor.registry, f"""You drop the {get_desc(item)}!""")
         unequip_item(item)
         del item.relation_tag[IsIn]
         item.components[Position] = actor.components[Position]

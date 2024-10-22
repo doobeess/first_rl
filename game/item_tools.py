@@ -9,7 +9,7 @@ from tcod.ecs import Entity, IsA
 from game.action import ActionResult, Impossible, Success
 from game.components import AssignedKey, Count, EquipSlot, Name, Position
 from game.constants import INVENTORY_KEYS
-from game.entity_tools import get_name
+from game.entity_tools import get_name, get_desc
 from game.item import FullInventoryError
 from game.tags import Affecting, EquippedBy, IsActor, IsIn, IsItem, NotStackable
 
@@ -24,7 +24,6 @@ def spawn_item(item: Entity, position: Position) -> Entity:
 
 def can_stack(entity: Entity, onto: Entity, /) -> bool:
     """Return True if two entities can be stacked."""
-    print(str(entity.relation_tag[IsA]) + "/" + str(onto.relation_tag[IsA]))
     return bool(
         entity.components.get(Name) == onto.components.get(Name)
         and entity.relation_tag.get(IsA) is onto.relation_tag.get(IsA)
@@ -75,11 +74,10 @@ def add_to_inventory(actor: Entity, item: Entity) -> ActionResult:
         return Success()  # Already in inventory.
     for held_item in actor.registry.Q.all_of(tags=[IsItem], relations=[(IsIn, actor)]):
         if not can_stack(item, held_item):
-            print(f"{get_name(item)} could not stack with {get_name(held_item)}")
             continue
         held_item.components.setdefault(Count, 1)
         held_item.components[Count] += item.components.get(Count, 1)
-        msg = f"You picked up the {get_name(item)}!"
+        msg = f"You picked up the {get_desc(item)}!"
         item.clear()
         return Success(msg)
     try:
@@ -90,7 +88,7 @@ def add_to_inventory(actor: Entity, item: Entity) -> ActionResult:
     item.components.pop(Position, None)
     item.relation_tag[IsIn] = actor
 
-    return Success(f"You picked up the {get_name(item)}!")
+    return Success(f"You picked up the {get_desc(item)}!")
 
 
 def get_inventory_keys(actor: Entity) -> dict[str, Entity]:

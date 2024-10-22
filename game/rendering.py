@@ -16,6 +16,7 @@ from game.components import HP, XP, Floor, Graphic, MapShape, MaxHP, MemoryTiles
 from game.messages import Message, MessageLog
 from game.tags import IsAlive, IsGhost, IsIn, IsItem, IsPlayer
 from game.tiles import TILES
+from game.entity_tools import get_desc
 
 from . import color
 
@@ -71,7 +72,7 @@ def render_names_at_position(console: tcod.console.Console, x: int, y: int, pos:
         for entity in pos.map.registry.Q.all_of(components=[Name], tags=[pos])
         if is_visible or (IsGhost in entity.tags)
     ]
-    names = ", ".join(entity.components[Name] for entity in known_entities)
+    names = ", ".join(get_desc(entity) for entity in known_entities)
     console.print(x=x, y=y, string=names, fg=color.white)
 
 
