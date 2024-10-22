@@ -9,7 +9,7 @@ from tcod.ecs import Entity, IsA
 from game.action import ActionResult, Impossible, Success
 from game.components import AssignedKey, Count, EquipSlot, Name, Position
 from game.constants import INVENTORY_KEYS
-from game.entity_tools import get_name, get_desc
+from game.entity_tools import get_desc, get_desc
 from game.item import FullInventoryError
 from game.tags import Affecting, EquippedBy, IsActor, IsIn, IsItem, NotStackable
 

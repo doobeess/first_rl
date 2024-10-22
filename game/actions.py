@@ -11,7 +11,7 @@ from game.action import ActionResult, Impossible, Success
 from game.actor_tools import update_fov
 from game.combat import apply_damage, melee_damage
 from game.components import EquipSlot, MapShape, Name, Position, Tiles, VisibleTiles
-from game.entity_tools import get_name, get_desc
+from game.entity_tools import get_desc, get_desc
 from game.item import ApplyAction
 from game.item_tools import add_to_inventory, equip_item, unequip_item
 from game.map import MapKey
@@ -172,14 +172,14 @@ class ApplyItem:
         if EquipSlot in self.item.components:
             if EquippedBy in self.item.relation_tag:
                 unequip_item(self.item)
-                add_message(actor.registry, f"You unequip the {get_name(self.item)}.")
+                add_message(actor.registry, f"You unequip the {get_desc(self.item)}.")
             else:
                 equip_item(actor, self.item)
-                add_message(actor.registry, f"You equip the {get_name(self.item)}.")
+                add_message(actor.registry, f"You equip the {get_desc(self.item)}.")
             return Success()
         if ApplyAction in self.item.components:
             return self.item.components[ApplyAction].on_apply(actor, self.item)
-        return Impossible(f"""Can not use the {get_name(self.item)}""")
+        return Impossible(f"""Can not use the {get_desc(self.item)}""")
 
 
 @attrs.define

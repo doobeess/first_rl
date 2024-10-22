@@ -12,7 +12,7 @@ from game.action import ActionResult, Impossible, Poll, Success
 from game.action_tools import do_player_action
 from game.components import Position, VisibleTiles
 from game.effect import Effect
-from game.entity_tools import get_name
+from game.entity_tools import get_desc
 from game.item_tools import consume_item
 from game.messages import add_message
 from game.spell import AreaOfEffect, EntitySpell, PositionSpell
@@ -25,7 +25,7 @@ class Potion:
 
     def on_apply(self, actor: Entity, item: Entity) -> ActionResult:
         """Consume the item and apply its effect."""
-        add_message(actor.registry, f"""You consume the {get_name(item)}!""")
+        add_message(actor.registry, f"""You consume the {get_desc(item)}!""")
         if Effect in item.components:
             item.components[Effect].affect(actor)
         consume_item(item)
