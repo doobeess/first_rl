@@ -7,6 +7,7 @@ import itertools
 from collections.abc import Iterable, Iterator, Sequence
 from random import Random
 from typing import Final, Self, TypedDict
+from copy import deepcopy
 
 import attrs
 import numpy as np
@@ -17,7 +18,7 @@ from numpy.typing import NDArray  # noqa: TCH002
 import game.map_tools
 from game.actions import HostileAI
 from game.actor_tools import spawn_actor
-from game.components import AI, Floor, Graphic, Position, SpawnWeight, Tiles
+from game.components import AI, Floor, Graphic, Position, SpawnWeight, Tiles, Enchantment, EquipSlot
 from game.item_tools import spawn_item
 from game.map import MapKey
 from game.tags import IsActor, IsItem
@@ -250,7 +251,13 @@ def generate_dungeon(  # noqa: C901
             room.iter_random_spaces(rng, map_),
             strict=False,
         ):
-            spawn_item(item_kind, pos)
+            item = item_kind.instantiate()
+            try:
+                if item_kind.components[EquipSlot] in ("weapon", "armor"):
+                    item.components[Enchantment] = rng.randint(-2,3)
+            except KeyError:
+                item.components[Enchantment] = 0
+            spawn_item(item, pos)
 
     return map_
 

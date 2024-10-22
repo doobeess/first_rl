@@ -11,23 +11,24 @@ from game.components import AssignedKey, Count, EquipSlot, Name, Position
 from game.constants import INVENTORY_KEYS
 from game.entity_tools import get_name
 from game.item import FullInventoryError
-from game.tags import Affecting, EquippedBy, IsActor, IsIn, IsItem
+from game.tags import Affecting, EquippedBy, IsActor, IsIn, IsItem, NotStackable
 
 logger = logging.getLogger(__name__)
 
 
-def spawn_item(template: Entity, position: Position) -> Entity:
+def spawn_item(item: Entity, position: Position) -> Entity:
     """Spawn an item based on `template` at `position`. Return the spawned entity."""
-    item = template.instantiate()
     item.components[Position] = position
     return item
 
 
 def can_stack(entity: Entity, onto: Entity, /) -> bool:
     """Return True if two entities can be stacked."""
+    print(str(entity.relation_tag[IsA]) + "/" + str(onto.relation_tag[IsA]))
     return bool(
         entity.components.get(Name) == onto.components.get(Name)
         and entity.relation_tag.get(IsA) is onto.relation_tag.get(IsA)
+        and not NotStackable in entity.tags
     )
 
 
@@ -74,6 +75,7 @@ def add_to_inventory(actor: Entity, item: Entity) -> ActionResult:
         return Success()  # Already in inventory.
     for held_item in actor.registry.Q.all_of(tags=[IsItem], relations=[(IsIn, actor)]):
         if not can_stack(item, held_item):
+            print(f"{get_name(item)} could not stack with {get_name(held_item)}")
             continue
         held_item.components.setdefault(Count, 1)
         held_item.components[Count] += item.components.get(Count, 1)

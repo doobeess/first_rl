@@ -289,7 +289,7 @@ class LevelUp:
             case tcod.event.KeyDown(sym=KeySym.c):
                 player.components[Evasion] += .07
                 level_up(player)
-                add_message(g.world, "You feel more evasive!")
+                add_message(g.world, "You feel more agile!")
                 return InGame()
 
         return self

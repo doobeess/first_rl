@@ -22,6 +22,7 @@ from game.components import (
     RewardXP,
     SpawnWeight,
     Evasion,
+    Enchantment,
 )
 from game.effect import Effect
 from game.effects import Healing
@@ -32,7 +33,7 @@ from game.map_tools import get_map
 from game.messages import MessageLog, add_message
 from game.spell import EntitySpell, PositionSpell
 from game.spells import Fireball, LightningBolt
-from game.tags import IsActor, IsIn, IsItem, IsPlayer
+from game.tags import IsActor, IsIn, IsItem, NotStackable, IsPlayer
 
 
 def new_world() -> tcod.ecs.Registry:
@@ -158,15 +159,18 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[Name] = "Dagger"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
     entity.components[PowerBonus] = (5,20)
+    entity.components[SpawnWeight] = ((1,5),)
     entity.components[EquipSlot] = "weapon"
+    entity.tags.add(NotStackable)
 
     entity = world["sword"]
     entity.tags.add(IsItem)
     entity.components[Name] = "Sword"
     entity.components[Graphic] = Graphic(ord("/"), (0, 191, 255))
     entity.components[PowerBonus] = (10,30)
-    entity.components[SpawnWeight] = ((4, 5),)
+    entity.components[SpawnWeight] = ((1, 5),)
     entity.components[EquipSlot] = "weapon"
+    entity.tags.add(NotStackable)
 
     entity = world["leather_armor"]
     entity.tags.add(IsItem)
@@ -174,6 +178,8 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[Graphic] = Graphic(ord("["), (139, 69, 19))
     entity.components[DefenseBonus] = 5
     entity.components[EquipSlot] = "armor"
+    entity.components[SpawnWeight] = ((1, 5),)
+    entity.tags.add(NotStackable)
 
     entity = world["chain_mail"]
     entity.tags.add(IsItem)
@@ -182,3 +188,4 @@ def init_items(world: tcod.ecs.Registry) -> None:
     entity.components[DefenseBonus] = 10
     entity.components[SpawnWeight] = ((6, 15),)
     entity.components[EquipSlot] = "armor"
+    entity.tags.add(NotStackable)

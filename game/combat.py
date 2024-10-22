@@ -3,11 +3,26 @@
 from __future__ import annotations
 
 import logging
+import math
 from random import Random
 
 import tcod.ecs  # noqa: TCH002
 
-from game.components import AI, HP, XP, Defense, DefenseBonus, Graphic, MaxHP, Name, Power, PowerBonus, RewardXP, Evasion
+from game.components import (
+    AI,
+    HP,
+    XP,
+    Defense,
+    DefenseBonus,
+    Graphic,
+    MaxHP,
+    Name,
+    Power,
+    PowerBonus,
+    Enchantment,
+    RewardXP,
+    Evasion
+)
 from game.messages import add_message
 from game.tags import Affecting, IsAlive, IsBlocking, IsPlayer
 
@@ -22,8 +37,13 @@ def get_attack(actor: tcod.ecs.Entity) -> int:
     rng = actor.world[None].components[Random]
     attack_power_range = actor.components.get(Power, (0,0))
     attack_power = rng.randint(attack_power_range[0], attack_power_range[1])
+
     for e in actor.registry.Q.all_of(components=[PowerBonus], relations=[(Affecting, actor)]):
-        bonus = rng.randint(e.components[PowerBonus][0], e.components[PowerBonus][1])
+        try:
+            eb = math.ceil(attack_power_range[0]/5)*e.components[Enchantment]
+        except KeyError:
+            eb = 0
+        bonus = rng.randint(e.components[PowerBonus][0]+eb, e.components[PowerBonus][1]+eb)
         attack_power += bonus
     return attack_power
 

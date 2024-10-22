@@ -22,7 +22,7 @@ import game.states
 import game.world_init
 from game.world_tools import load_world, save_world
 
-TITLE = "Yet Another Roguelike Tutorial"
+TITLE = "First RL"
 CONSOLE_SIZE = 80, 50
 SAVE_PATH = Path("saved.sav")
 

@@ -25,6 +25,8 @@ IsAlive: Final = "IsAlive"
 IsIn: Final = "IsIn"
 """Entity is-in relation."""
 
+NotStackable: Final = "NotStackable"
+
 EquippedBy: Final = "EquippedBy"
 """Entity equipped-by relation."""
 
